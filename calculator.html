@@ -1,9 +1,293 @@
 <!DOCTYPE html>
-<html>
-<head>
-<title>Calculator App</title>
-</head>
-<body>
-<h1>Calculator</h1>
-</body>
-</html>
+	<html>
+		<head>
+			<title>Calculator App</title>
+			  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+			<style>
+				body
+				{
+					padding-top: 100px;
+					padding-left: 400px;
+					padding-right: 400px;
+					font-size: 20px;
+
+				}
+				.container-2
+				{
+				display: grid;
+				grid-template-columns: 1fr 1fr 1fr 1fr ;
+				}
+				input
+				{
+					width: 480px;
+					font-size: 40px;
+    			text-align:right;
+					padding-right: 40px;
+					background-color: #262626;
+					color: white;
+				}
+				button
+				{
+					width: 100%;
+				}
+
+				#oprtr
+				{
+					background-color: orange;
+					color: white;
+				}
+				#nums
+				{
+					background-color: grey;
+					color: white;
+				}
+				#tops{
+					background-color: #4d4d4d;
+					color: white;
+				}
+				.container-1
+				{
+					display:grid;
+					grid-template-columns: 1fr;
+				}
+				.spantwo
+				{
+					grid-column: 1/ 3;
+				}
+
+			</style>
+			<script>
+
+			let calculator =
+			{
+				displayValue : '0',
+				firstOperand : '0',
+				secOperand : '0',
+				waitingForSecondOperand : false,
+				operator : null,
+				answer: null,
+			};
+
+
+
+			function clearCalculator()
+			{
+				calculator.displayValue = '0';
+				calculator.firstOperand = '0';
+				calculator.secOperand = '0';
+				calculator.answer = null;
+				calculator.waitingForSecondOperand = false;
+				calculator.operator = null;
+				updateDisplayVal();
+			}
+
+			function inputDecimal()
+			{
+				if(calculator.waitingForSecondOperand == false)
+				{
+					if(calculator.firstOperand.includes('.'))
+					{
+
+					}
+					else
+					{
+
+						calculator.firstOperand += ".";
+						updateFirstOperand();
+					}
+
+
+				}else
+				{
+					if(calculator.secOperand.includes('.'))
+					{
+
+					}
+					else
+					{
+
+						calculator.secOperand += ".";
+						updateSecOperand();
+					}
+				}
+			}
+
+			function inputDigit(digit)
+			{
+				let waitingForSecondOperand = calculator.waitingForSecondOperand;
+				let displayValue = calculator.displayValue;
+
+
+				if(calculator.waitingForSecondOperand == false)
+				{
+					if(calculator.firstOperand.includes('.'))
+						{
+							calculator.firstOperand = calculator.firstOperand + digit;
+
+						}
+						else
+						{
+							calculator.firstOperand= digit;
+
+						}
+
+					updateFirstOperand();
+				}
+				if(calculator.waitingForSecondOperand == true)
+				{//calculator.waitingForSecondOperand = true;
+					if(calculator.secOperand.includes('.'))
+						{
+							calculator.secOperand = calculator.secOperand + digit;
+						}
+						else
+						{
+							calculator.secOperand= digit;
+						}
+					updateSecOperand();
+				}
+			}
+
+
+			function changeOperator(operator)
+			{
+
+				calculator.operator = operator;
+				calculator.waitingForSecondOperand = true;
+				updateOperator();
+
+			}
+
+			function calculate()
+			{
+				if(calculator.operator == '+')
+				{
+
+					let answer = Number(calculator.firstOperand) + Number(calculator.secOperand);
+					calculator.answer = answer;
+					updateAnswer();
+				}
+
+				if(calculator.operator == '-')
+				{
+					let answer = Number(calculator.firstOperand) - Number(calculator.secOperand);
+					calculator.answer = answer;
+					updateAnswer();
+				}
+
+				if(calculator.operator == '/')
+				{
+					let answer = Number(calculator.firstOperand) / Number(calculator.secOperand);
+					calculator.answer = answer;
+					updateAnswer();
+				}
+
+				if(calculator.operator == 'x')
+				{
+					let answer = Number(calculator.firstOperand) * Number(calculator.secOperand);
+					calculator.answer = answer;
+					updateAnswer();
+				}
+
+			}
+
+			function invSign()
+			{
+				if(calculator.waitingForSecondOperand == false)
+				{
+					calculator.firstOperand *= -1;
+					updateFirstOperand();
+				}
+				if(calculator.waitingForSecondOperand == true)
+				{
+					calculator.secOperand *= -1;
+					updateSecOperand();
+				}
+			}
+
+			function percent()
+			{
+				if(calculator.waitingForSecondOperand == false)
+				{
+					calculator.firstOperand *= .01;
+					updateFirstOperand();
+				}
+				if(calculator.waitingForSecondOperand == true)
+				{
+					calculator.secOperand *= .01;
+					updateSecOperand();
+				}
+			}
+
+
+			</script>
+		</head>
+		<body>
+
+
+
+ 	 				<input type="text" class="calculator-screen" disabled />
+
+
+
+
+			<div class="container-2">
+
+
+
+
+
+				<div><button id="tops" type="button" class="btn btn-light" id="click" value="clear" onclick="clearCalculator()">Clear</button></div>
+				<div><button id="tops" type="button" class="btn btn-light" d="click" value="+/-" onclick="invSign()">+/-</button></div>
+				<div><button id="tops" type="button" class="btn btn-light" value="%" onclick="percent()">%</button></div>
+				<div><button id="oprtr" type="button" class="btn btn-link" value="/" onclick="changeOperator('/')">/</button></div>
+				<div><button id="nums" type="button" class="btn btn-light" value="7" onclick="inputDigit('7')">7</button></div>
+				<div><button id="nums" type="button" class="btn btn-light" value="8" onclick="inputDigit('8')">8</button></div>
+				<div><button id="nums" type="button" class="btn btn-light" value="9" onclick="inputDigit('9')">9</button></div>
+				<div><button id="oprtr" type="button" class="btn btn-link" value="x" onclick="changeOperator('x')">x</button></div>
+				<div><button id="nums" type="button" class="btn btn-light" value="4" onclick="inputDigit('4')">4</button></div>
+				<div><button id="nums" type="button" class="btn btn-light" value="5" onclick="inputDigit('5')">5</button></div>
+				<div><button id="nums" type="button" class="btn btn-light" value="6" onclick="inputDigit('6')">6</button></div>
+				<div><button id="oprtr" type="button" class="btn btn-link" value="-" onclick="changeOperator('-')">-</button></div>
+				<div><button id="nums" type="button" class="btn btn-light" value="1" onclick="inputDigit('1')">1</button></div>
+				<div><button id="nums" type="button" class="btn btn-light" value="2" onclick="inputDigit('2')">2</button></div>
+				<div><button id="nums" type="button" class="btn btn-light" value="3" onclick="inputDigit('3')">3</button></div>
+				<div><button id="oprtr" type="button" class="btn btn-link" value="+" onclick="changeOperator('+')">+</button></div>
+				<div class="spantwo"><button id="nums" type="button" class="btn btn-light" value="0" onclick="inputDigit('0')">0</button></div>
+				<div><button id="nums" type="button" class="btn btn-light" value="." onclick="inputDecimal()">.</button></div>
+				<div><button id="oprtr" type="button" class="btn btn-link" value="=" onclick="calculate()">=</button></div>
+
+
+
+			</div>
+<script>
+function updateDisplayVal()
+{
+
+		document.querySelector('.calculator-screen').value = calculator.displayValue;
+
+	}
+function updateFirstOperand()
+{
+	document.querySelector('.calculator-screen').value = calculator.firstOperand;
+}
+function updateSecOperand()
+{
+	document.querySelector('.calculator-screen').value = calculator.secOperand;
+}
+	function updateOperator()
+	{
+		document.querySelector('.calculator-screen').value = calculator.operator;
+	}
+
+function updateAnswer()
+{
+	document.querySelector('.calculator-screen').value = calculator.answer;
+}
+
+
+
+updateDisplayVal();
+</script>
+
+		</body>
+	</html>

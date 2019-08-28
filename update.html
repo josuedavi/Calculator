@@ -1,0 +1,27 @@
+<!Doctype html>
+<html>
+<head></head>
+
+<body>
+<input type="text" id="calc-screen" value ="" disabled />
+<script>
+let calculator =
+{
+	displayValue : '0',
+	firstOperand : null,
+	waitingForSecondOperand : false,
+	operator : null,
+};
+
+function update()
+{
+  var display = document.getElementById('calc-screen');
+  display.value = calculator.displayValue;
+}
+update();
+
+</script>
+</body>
+
+
+</html>
